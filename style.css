@@ -1,0 +1,289 @@
+:root {
+    --bg-color: #0f172a;
+    --text-primary: #f8fafc;
+    --text-secondary: #94a3b8;
+    --accent-gold: #fbbf24;
+    --accent-gold-glow: rgba(251, 191, 36, 0.5);
+    --positive-green: #4ade80;
+    --negative-red: #f87171;
+    --glass-bg: rgba(30, 41, 59, 0.7);
+    --glass-border: rgba(255, 255, 255, 0.1);
+    --blob-1: #4f46e5;
+    --blob-2: #7c3aed;
+    --blob-3: #2563eb;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Outfit', sans-serif;
+}
+
+body {
+    background-color: var(--bg-color);
+    color: var(--text-primary);
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow-x: hidden;
+    position: relative;
+}
+
+/* Background Animation */
+.background-blobs {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -1;
+    overflow: hidden;
+}
+
+.blob {
+    position: absolute;
+    border-radius: 50%;
+    filter: blur(80px);
+    opacity: 0.6;
+    animation: blob-bounce 20s infinite ease-in-out;
+}
+
+.blob-1 {
+    width: 400px;
+    height: 400px;
+    background: var(--blob-1);
+    top: -10%;
+    left: -10%;
+    animation-delay: 0s;
+}
+
+.blob-2 {
+    width: 300px;
+    height: 300px;
+    background: var(--blob-2);
+    bottom: 10%;
+    right: -5%;
+    animation-delay: -5s;
+}
+
+.blob-3 {
+    width: 350px;
+    height: 350px;
+    background: var(--blob-3);
+    top: 40%;
+    left: 40%;
+    animation-delay: -10s;
+}
+
+@keyframes blob-bounce {
+
+    0%,
+    100% {
+        transform: translate(0, 0) scale(1);
+    }
+
+    33% {
+        transform: translate(30px, -50px) scale(1.1);
+    }
+
+    66% {
+        transform: translate(-20px, 20px) scale(0.9);
+    }
+}
+
+/* Main Container for Grid Layout */
+.container {
+    width: 100%;
+    max-width: 1000px;
+    padding: 2rem;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 2rem;
+    justify-content: center;
+    align-items: stretch;
+    z-index: 1;
+}
+
+@media (max-width: 900px) {
+    .container {
+        grid-template-columns: 1fr;
+    }
+}
+
+/* Glass Card */
+.glass-card {
+    background: var(--glass-bg);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border: 1px solid var(--glass-border);
+    border-radius: 24px;
+    padding: 3rem;
+    width: 100%;
+    max-width: 480px;
+    margin: 0 auto;
+    /* Center card in its grid cell */
+    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+    text-align: center;
+    transition: transform 0.3s ease;
+    display: flex;
+    flex-direction: column;
+}
+
+.glass-card:hover {
+    transform: translateY(-5px);
+}
+
+/* Button Container (Spans full width) */
+.button-container {
+    grid-column: 1 / -1;
+    display: flex;
+    justify-content: center;
+    margin-top: 1rem;
+}
+
+header {
+    margin-bottom: 2.5rem;
+}
+
+h1 {
+    font-size: 2rem;
+    font-weight: 700;
+    background: linear-gradient(135deg, #fff 0%, #cbd5e1 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    margin-bottom: 0.5rem;
+}
+
+.currency {
+    color: var(--accent-gold);
+    -webkit-text-fill-color: var(--accent-gold);
+}
+
+.timestamp {
+    color: var(--text-secondary);
+    font-size: 0.875rem;
+}
+
+/* Price Display */
+.price-display {
+    margin-bottom: 2.5rem;
+}
+
+.price-display .label {
+    color: var(--text-secondary);
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    font-size: 0.875rem;
+    margin-bottom: 0.5rem;
+    font-weight: 600;
+}
+
+.price {
+    font-size: 4rem;
+    font-weight: 700;
+    color: var(--text-primary);
+    line-height: 1;
+    text-shadow: 0 0 30px rgba(255, 255, 255, 0.1);
+    margin-bottom: 0.5rem;
+    font-feature-settings: "tnum";
+    font-variant-numeric: tabular-nums;
+}
+
+.change-indicator {
+    font-size: 1.125rem;
+    font-weight: 500;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.25rem 0.75rem;
+    border-radius: 9999px;
+    background: rgba(255, 255, 255, 0.05);
+}
+
+.change-indicator.positive {
+    color: var(--positive-green);
+    background: rgba(74, 222, 128, 0.1);
+}
+
+.change-indicator.negative {
+    color: var(--negative-red);
+    background: rgba(248, 113, 113, 0.1);
+}
+
+/* Details Grid */
+.details-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+    margin-bottom: 2rem;
+    padding-top: 2rem;
+    border-top: 1px solid var(--glass-border);
+    margin-top: auto;
+    /* Pushes grid to bottom if card height varies */
+}
+
+.detail-item {
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+}
+
+.detail-item .label {
+    color: var(--text-secondary);
+    font-size: 0.75rem;
+    text-transform: uppercase;
+}
+
+.detail-item .value {
+    font-size: 1.25rem;
+    font-weight: 600;
+}
+
+/* Button */
+.refresh-button {
+    background: linear-gradient(135deg, var(--accent-gold) 0%, #f59e0b 100%);
+    color: #0f172a;
+    border: none;
+    padding: 1rem 3rem;
+    /* Larger button */
+    border-radius: 16px;
+    font-size: 1.25rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    box-shadow: 0 4px 15px var(--accent-gold-glow);
+}
+
+.refresh-button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px var(--accent-gold-glow);
+}
+
+.refresh-button:active {
+    transform: translateY(0);
+}
+
+.refresh-button svg {
+    transition: transform 0.5s ease;
+}
+
+.refresh-button:hover svg {
+    transform: rotate(180deg);
+}
+
+@media (max-width: 600px) {
+    .glass-card {
+        padding: 2rem;
+        width: 100%;
+    }
+
+    .price {
+        font-size: 3rem;
+    }
+}

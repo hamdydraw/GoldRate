@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gold Rate Tracker</title>
+    <meta name="description"
+        content="Live Gold Rate Tracker showcasing real-time XAU/USD prices with a modern interface.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <div class="background-blobs">
+        <div class="blob blob-1"></div>
+        <div class="blob blob-2"></div>
+        <div class="blob blob-3"></div>
+    </div>
+
+    <main class="container">
+        <!-- Card 1: Gold Price Org -->
+        <div class="glass-card">
+            <header>
+                <h1>Gold Price <span class="currency">USD</span></h1>
+                <p id="timestamp" class="timestamp">Loading date...</p>
+            </header>
+
+            <div class="price-display">
+                <div class="label">XAU / USD (Source 1)</div>
+                <div id="gold-price" class="price">Loading...</div>
+                <div id="price-change" class="change-indicator">
+                    <span id="change-value">--</span>
+                    <span id="change-percent">(--%)</span>
+                </div>
+            </div>
+
+            <div class="details-grid">
+                <div class="detail-item">
+                    <span class="label">Silver Price (XAG)</span>
+                    <span id="high-val" class="value">--</span>
+                </div>
+                <div class="detail-item">
+                    <span class="label">Previous Close</span>
+                    <span id="prev-close" class="value">--</span>
+                </div>
+                <div class="detail-item">
+                    <span class="label">Gold / Gram (AED)</span>
+                    <span id="gram-price-aed" class="value" style="color: var(--accent-gold);">--</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Card 2: Gold-API.com -->
+        <div class="glass-card">
+            <header>
+                <h1>Market Global <span class="currency">API</span></h1>
+                <p id="timestamp-2" class="timestamp">Live Real-time</p>
+            </header>
+
+            <div class="price-display">
+                <div class="label">XAU / USD (Source 2)</div>
+                <div id="gold-price-2" class="price">Loading...</div>
+                <div id="price-change-2" class="change-indicator" style="display: none;">
+                    <span id="change-value-2">--</span>
+                    <span id="change-percent-2">(--%)</span>
+                </div>
+            </div>
+
+            <div class="details-grid">
+                <div class="detail-item">
+                    <span class="label">Silver Price (XAG)</span>
+                    <span id="silver-price-2" class="value">--</span>
+                </div>
+                <div class="detail-item">
+                    <span class="label">Gold / Gram (AED)</span>
+                    <span id="gram-price-aed-2" class="value" style="color: var(--accent-gold);">--</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="button-container">
+            <button id="refresh-btn" class="refresh-button">
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none"
+                    stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M21.5 2v6h-6M21.34 15.57a10 10 0 1 1-.57-8.38" />
+                </svg>
+                Refresh Rates
+            </button>
+        </div>
+    </main>
+
+    <script src="script.js"></script>
+</body>
+
+</html>
