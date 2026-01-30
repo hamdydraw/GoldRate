@@ -32,19 +32,22 @@ jobs:
           mkdir -p www
           cp index.html style.css script.js www/
 
-      - name: Check / Add Android Platform
+      - name: Fresh Android Project Generation
         run: |
-          if [ ! -d "android" ]; then
-            npx cap add android
-          else
-            npx cap sync android
-          fi
+          # Remove existing android folder to ensure a clean build
+          rm -rf android
+          
+          # Re-add the android platform from scratch
+          npx cap add android
+          
+          # Sync Web Assets
+          npx cap sync android
 
       - name: Build APK with Gradle
         run: |
           cd android
           chmod +x gradlew
-          ./gradlew assembleDebug
+          ./gradlew assembleDebug --stacktrace
 
       - name: Upload APK Artifact
         uses: actions/upload-artifact@v4
