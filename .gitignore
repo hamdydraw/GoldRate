@@ -1,6 +1,5 @@
 # Capacitor
-android/
-ios/
+# Note: In Capacitor projects, we DO commit android/ and ios/ folders
 node_modules/
 package-lock.json
 

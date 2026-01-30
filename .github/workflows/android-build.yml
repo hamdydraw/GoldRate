@@ -3,7 +3,7 @@ name: Build Android APK
 on:
   push:
     branches: [ main, master ]
-  workflow_dispatch: # Allows you to run this manually from the Actions tab
+  workflow_dispatch:
 
 jobs:
   build:
@@ -32,8 +32,13 @@ jobs:
           mkdir -p www
           cp index.html style.css script.js www/
 
-      - name: Capacitor Sync
-        run: npx cap sync android
+      - name: Check / Add Android Platform
+        run: |
+          if [ ! -d "android" ]; then
+            npx cap add android
+          else
+            npx cap sync android
+          fi
 
       - name: Build APK with Gradle
         run: |
