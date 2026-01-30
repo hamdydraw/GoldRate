@@ -43,7 +43,12 @@ jobs:
 
       - name: Build iOS Archive (Unsigned)
         run: |
+          # Debug: List the structure of the ios folder
+          find ios -maxdepth 3
+          
+          # Go into the directory where the workspace file is
           cd ios/App
+          
           # Build the project without code signing
           xcodebuild -workspace App.xcworkspace -scheme App -destination 'generic/platform=iOS' -archivePath App.xcarchive archive CODE_SIGN_IDENTITY="" CODE_SIGNING_REQUIRED=NO CODE_SIGNING_ALLOWED=NO
 
