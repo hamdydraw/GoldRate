@@ -2,102 +2,122 @@ name: Build iOS IPA
 
 on:
   push:
-    branches: [ main, master ]
+    branches:
+      - main
+      - master
   workflow_dispatch:
 
 jobs:
-  build:
+  build-ios:
     runs-on: macos-latest
     
     steps:
-      - name: Checkout Code
+      - name: Checkout code
         uses: actions/checkout@v4
 
-      - name: Set up Node.js
+      - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: '22'
+          node-version: '18'
+          cache: 'npm'
 
-      - name: Install Dependencies
-        run: npm install
+      - name: Install dependencies
+        run: npm ci
 
-      - name: Prepare Web Assets
-        run: |
-          mkdir -p www
-          cp index.html style.css script.js www/
+      - name: Build web assets
+        run: npm run build
 
-      - name: Fresh iOS Project Generation
-        run: |
-          # Remove existing ios folder to ensure a clean build
-          rm -rf ios
-          
-          # Re-add the ios platform from scratch
-          npx cap add ios
-          
-          # Sync Web Assets (this also runs pod install)
-          npx cap sync ios
+      - name: Sync Capacitor
+        run: npx cap sync ios
 
-      - name: Inspect Directory Structure
+      - name: Setup Xcode
+        uses: maxim-lobanov/setup-xcode@v1
+        with:
+          xcode-version: latest-stable
+
+      - name: Install CocoaPods dependencies
         run: |
-          echo "Current Directory: $(pwd)"
-          ls -R ios
-          
-      - name: Resolve Paths and Build
-        run: |
-          # Find the directory containing the Podfile
-          PODFILE=$(find ios -name Podfile)
-          if [ -z "$PODFILE" ]; then
-            echo "::error::Podfile not found in ios directory!"
-            exit 1
-          fi
-          
-          PROJECT_ROOT=$(dirname "$PODFILE")
-          echo "Project Root found at: $PROJECT_ROOT"
-          
-          cd "$PROJECT_ROOT"
-          
-          # Install Pods explicitly
+          cd ios/App
           pod install
-          
-          # Check for workspace confirmation
-          if [ ! -d "App.xcworkspace" ]; then
-            echo "::error::App.xcworkspace not found after pod install!"
-            ls -la
-            exit 1
-          fi
-          
-          # Build
+
+      - name: Import Code Signing Certificate
+        env:
+          BUILD_CERTIFICATE_BASE64: ${{ secrets.BUILD_CERTIFICATE_BASE64 }}
+          P12_PASSWORD: ${{ secrets.P12_PASSWORD }}
+          KEYCHAIN_PASSWORD: ${{ secrets.KEYCHAIN_PASSWORD }}
+        run: |
+          # Create variables
+          CERTIFICATE_PATH=$RUNNER_TEMP/build_certificate.p12
+          KEYCHAIN_PATH=$RUNNER_TEMP/app-signing.keychain-db
+
+          # Import certificate from secrets
+          echo -n "$BUILD_CERTIFICATE_BASE64" | base64 --decode -o $CERTIFICATE_PATH
+
+          # Create temporary keychain
+          security create-keychain -p "$KEYCHAIN_PASSWORD" $KEYCHAIN_PATH
+          security set-keychain-settings -lut 21600 $KEYCHAIN_PATH
+          security unlock-keychain -p "$KEYCHAIN_PASSWORD" $KEYCHAIN_PATH
+
+          # Import certificate to keychain
+          security import $CERTIFICATE_PATH -P "$P12_PASSWORD" -A -t cert -f pkcs12 -k $KEYCHAIN_PATH
+          security list-keychain -d user -s $KEYCHAIN_PATH
+
+      - name: Import Provisioning Profile
+        env:
+          PROVISIONING_PROFILE_BASE64: ${{ secrets.PROVISIONING_PROFILE_BASE64 }}
+        run: |
+          PP_PATH=$RUNNER_TEMP/build_pp.mobileprovision
+
+          # Import provisioning profile from secrets
+          echo -n "$PROVISIONING_PROFILE_BASE64" | base64 --decode -o $PP_PATH
+
+          # Copy to the right location
+          mkdir -p ~/Library/MobileDevice/Provisioning\ Profiles
+          cp $PP_PATH ~/Library/MobileDevice/Provisioning\ Profiles
+
+      - name: Build iOS Archive
+        run: |
+          cd ios/App
           xcodebuild -workspace App.xcworkspace \
             -scheme App \
-            -sdk iphoneos \
             -configuration Release \
-            -archivePath App.xcarchive \
-            clean archive \
-            CODE_SIGN_IDENTITY="" \
-            CODE_SIGNING_REQUIRED=NO \
-            CODE_SIGNING_ALLOWED=NO
+            -archivePath $RUNNER_TEMP/App.xcarchive \
+            -allowProvisioningUpdates \
+            archive
 
-      - name: Create IPA
+      - name: Export IPA
         run: |
-          # Find the built archive again
-          PODFILE=$(find ios -name Podfile)
-          PROJECT_ROOT=$(dirname "$PODFILE")
-          cd "$PROJECT_ROOT"
+          cd ios/App
           
-          if [ ! -d "App.xcarchive" ]; then
-             echo "::error::App.xcarchive not generated!"
-             exit 1
-          fi
+          # Create ExportOptions.plist
+          cat > $RUNNER_TEMP/ExportOptions.plist << EOF
+          <?xml version="1.0" encoding="UTF-8"?>
+          <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+          <plist version="1.0">
+          <dict>
+            <key>method</key>
+            <string>app-store</string>
+            <key>uploadSymbols</key>
+            <true/>
+            <key>uploadBitcode</key>
+            <false/>
+          </dict>
+          </plist>
+          EOF
           
-          mkdir -p Payload
-          mv App.xcarchive/Products/Applications/App.app Payload/
-          zip -r App.ipa Payload
-          
-          # Move to workspace root for upload
-          mv App.ipa "$GITHUB_WORKSPACE/gold-rate-tracker.ipa"
+          xcodebuild -exportArchive \
+            -archivePath $RUNNER_TEMP/App.xcarchive \
+            -exportPath $RUNNER_TEMP/build \
+            -exportOptionsPlist $RUNNER_TEMP/ExportOptions.plist
 
-      - name: Upload IPA Artifact
+      - name: Upload IPA artifact
         uses: actions/upload-artifact@v4
         with:
-          name: gold-rate-tracker-ipa
-          path: gold-rate-tracker.ipa
+          name: GoldRate-iOS
+          path: ${{ runner.temp }}/build/*.ipa
+          retention-days: 30
+
+      - name: Clean up keychain
+        if: always()
+        run: |
+          security delete-keychain $RUNNER_TEMP/app-signing.keychain-db || true
