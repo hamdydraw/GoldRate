@@ -37,9 +37,17 @@ jobs:
           # Sync Web Assets (this also runs pod install)
           npx cap sync ios
 
+      - name: Ensure Pods Installed
+        run: |
+          cd ios/App
+          pod install
+
       - name: Build iOS App (Unsigned)
         run: |
           cd ios/App
+          # Debug: List to confirm workspace exists
+          ls -la
+          
           # Build the archive disabling code signing
           xcodebuild -workspace App.xcworkspace \
             -scheme App \
