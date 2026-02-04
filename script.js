@@ -12,11 +12,15 @@ document.addEventListener('DOMContentLoaded', () => {
         prevClose: document.getElementById('prev-close'),
         highVal: document.getElementById('high-val'),
         gramAed: document.getElementById('gram-price-aed'),
+        gramEgp: document.getElementById('gram-price-egp'),
+        gramEgp21k: document.getElementById('gram-price-egp-21k'),
 
         // Card 2 (Gold-API.com)
         price2: document.getElementById('gold-price-2'),
         silver2: document.getElementById('silver-price-2'),
         gramAed2: document.getElementById('gram-price-aed-2'),
+        gramEgp2: document.getElementById('gram-price-egp-2'),
+        gramEgp21k2: document.getElementById('gram-price-egp-21k-2'),
 
         // Global
         refreshBtn: document.getElementById('refresh-btn')
@@ -52,10 +56,20 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const fetchOriginalAPI = async () => {
         try {
-            const response = await fetch(API_URL);
-            if (!response.ok) throw new Error('Source 1 Network response was not ok');
-            const data = await response.json();
-            updateUI_Source1(data);
+            const [respUsd, respEgp] = await Promise.all([
+                fetch(API_URL),
+                fetch('https://data-asg.goldprice.org/dbXRates/EGP')
+            ]);
+
+            if (!respUsd.ok) throw new Error('Source 1 USD Network response was not ok');
+            const dataUsd = await respUsd.json();
+
+            let dataEgp = null;
+            if (respEgp.ok) {
+                dataEgp = await respEgp.json();
+            }
+
+            updateUI_Source1(dataUsd, dataEgp);
         } catch (error) {
             console.error('Error fetching source 1:', error);
             elements.price.textContent = 'Error';
@@ -66,10 +80,12 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const fetchGoldApiCom = async () => {
         try {
-            // Fetch XAU and XAG
-            const [respGold, respSilver] = await Promise.all([
+            // Fetch XAU and XAG, plus reference data for EGP conversion
+            const [respGold, respSilver, respRefUsd, respRefEgp] = await Promise.all([
                 fetch('https://api.gold-api.com/price/XAU'),
-                fetch('https://api.gold-api.com/price/XAG')
+                fetch('https://api.gold-api.com/price/XAG'),
+                fetch('https://data-asg.goldprice.org/dbXRates/USD'),
+                fetch('https://data-asg.goldprice.org/dbXRates/EGP')
             ]);
 
             if (!respGold.ok || !respSilver.ok) throw new Error('Gold-API response was not ok');
@@ -77,7 +93,17 @@ document.addEventListener('DOMContentLoaded', () => {
             const dataGold = await respGold.json();
             const dataSilver = await respSilver.json();
 
-            updateUI_Source2(dataGold, dataSilver);
+            // Calculate exchange rate from reference
+            let exchangeRate = 0;
+            if (respRefUsd.ok && respRefEgp.ok) {
+                const refUsd = await respRefUsd.json();
+                const refEgp = await respRefEgp.json();
+                if (refUsd.items && refUsd.items.length > 0 && refEgp.items && refEgp.items.length > 0) {
+                    exchangeRate = refEgp.items[0].xauPrice / refUsd.items[0].xauPrice;
+                }
+            }
+
+            updateUI_Source2(dataGold, dataSilver, exchangeRate);
         } catch (error) {
             console.error('Error fetching Gold-API:', error);
             if (elements.price2) {
@@ -88,7 +114,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     };
 
-    const updateUI_Source1 = (data) => {
+    const updateUI_Source1 = (data, dataEgp) => {
         // Data structure: {"items":[{"curr":"USD","xauPrice":5581.4,"chgXau":276.15,"pcXau":5.2052,"xauClose":5305.25...}]}
         if (!data.items || data.items.length === 0) return;
 
@@ -141,9 +167,34 @@ document.addEventListener('DOMContentLoaded', () => {
                 maximumFractionDigits: 2
             }).format(pricePerGramInAed);
         }
+
+        // Calculate Gram Price in EGP
+        if (dataEgp && dataEgp.items && dataEgp.items.length > 0) {
+            const itemEgp = dataEgp.items[0];
+            const pricePerGramInEgp = itemEgp.xauPrice / OUNCE_TO_GRAMS;
+            const pricePerGram21kInEgp = pricePerGramInEgp * (21 / 24);
+
+            if (elements.gramEgp) {
+                elements.gramEgp.textContent = new Intl.NumberFormat('en-EG', {
+                    style: 'currency',
+                    currency: 'EGP',
+                    minimumFractionDigits: 2,
+                    maximumFractionDigits: 2
+                }).format(pricePerGramInEgp);
+            }
+
+            if (elements.gramEgp21k) {
+                elements.gramEgp21k.textContent = new Intl.NumberFormat('en-EG', {
+                    style: 'currency',
+                    currency: 'EGP',
+                    minimumFractionDigits: 2,
+                    maximumFractionDigits: 2
+                }).format(pricePerGram21kInEgp);
+            }
+        }
     };
 
-    const updateUI_Source2 = (dataGold, dataSilver) => {
+    const updateUI_Source2 = (dataGold, dataSilver, exchangeRate) => {
         // Structure: { "curr": "USD", "price": 2730.5, "symbol": "XAU" ... } (Hypothetical, usually just price/symbol)
         // Adjust based on actual test if needed, but standard guess:
         const priceGold = parseFloat(dataGold.price);
@@ -170,6 +221,31 @@ document.addEventListener('DOMContentLoaded', () => {
                 minimumFractionDigits: 2,
                 maximumFractionDigits: 2
             }).format(pricePerGramInAed);
+        }
+
+        // EGP Calc
+        if (exchangeRate > 0) {
+            const priceGoldEgp = priceGold * exchangeRate; // convert to EGP
+            const pricePerGramInEgp = priceGoldEgp / OUNCE_TO_GRAMS;
+            const pricePerGram21kInEgp = pricePerGramInEgp * (21 / 24);
+
+            if (elements.gramEgp2) {
+                elements.gramEgp2.textContent = new Intl.NumberFormat('en-EG', {
+                    style: 'currency',
+                    currency: 'EGP',
+                    minimumFractionDigits: 2,
+                    maximumFractionDigits: 2
+                }).format(pricePerGramInEgp);
+            }
+
+            if (elements.gramEgp21k2) {
+                elements.gramEgp21k2.textContent = new Intl.NumberFormat('en-EG', {
+                    style: 'currency',
+                    currency: 'EGP',
+                    minimumFractionDigits: 2,
+                    maximumFractionDigits: 2
+                }).format(pricePerGram21kInEgp);
+            }
         }
     };
 
