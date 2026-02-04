@@ -37,18 +37,36 @@ jobs:
           # Sync Web Assets (this also runs pod install)
           npx cap sync ios
 
-      - name: Ensure Pods Installed
+      - name: Inspect Directory Structure
         run: |
-          cd ios/App
-          pod install
-
-      - name: Build iOS App (Unsigned)
-        run: |
-          cd ios/App
-          # Debug: List to confirm workspace exists
-          ls -la
+          echo "Current Directory: $(pwd)"
+          ls -R ios
           
-          # Build the archive disabling code signing
+      - name: Resolve Paths and Build
+        run: |
+          # Find the directory containing the Podfile
+          PODFILE=$(find ios -name Podfile)
+          if [ -z "$PODFILE" ]; then
+            echo "::error::Podfile not found in ios directory!"
+            exit 1
+          fi
+          
+          PROJECT_ROOT=$(dirname "$PODFILE")
+          echo "Project Root found at: $PROJECT_ROOT"
+          
+          cd "$PROJECT_ROOT"
+          
+          # Install Pods explicitly
+          pod install
+          
+          # Check for workspace confirmation
+          if [ ! -d "App.xcworkspace" ]; then
+            echo "::error::App.xcworkspace not found after pod install!"
+            ls -la
+            exit 1
+          fi
+          
+          # Build
           xcodebuild -workspace App.xcworkspace \
             -scheme App \
             -sdk iphoneos \
@@ -61,15 +79,25 @@ jobs:
 
       - name: Create IPA
         run: |
-          cd ios/App
+          # Find the built archive again
+          PODFILE=$(find ios -name Podfile)
+          PROJECT_ROOT=$(dirname "$PODFILE")
+          cd "$PROJECT_ROOT"
+          
+          if [ ! -d "App.xcarchive" ]; then
+             echo "::error::App.xcarchive not generated!"
+             exit 1
+          fi
+          
           mkdir -p Payload
-          # Move the .app from the archive to the Payload folder
           mv App.xcarchive/Products/Applications/App.app Payload/
-          # Zip the Payload folder into an .ipa file
           zip -r App.ipa Payload
+          
+          # Move to workspace root for upload
+          mv App.ipa "$GITHUB_WORKSPACE/gold-rate-tracker.ipa"
 
       - name: Upload IPA Artifact
         uses: actions/upload-artifact@v4
         with:
           name: gold-rate-tracker-ipa
-          path: ios/App/App.ipa
+          path: gold-rate-tracker.ipa
