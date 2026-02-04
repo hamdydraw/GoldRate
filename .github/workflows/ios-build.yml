@@ -1,0 +1,67 @@
+name: Build iOS IPA
+
+on:
+  push:
+    branches: [ main, master ]
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: macos-latest
+    
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+
+      - name: Install Dependencies
+        run: npm install
+
+      - name: Prepare Web Assets
+        run: |
+          mkdir -p www
+          cp index.html style.css script.js www/
+
+      - name: Fresh iOS Project Generation
+        run: |
+          # Remove existing ios folder to ensure a clean build
+          rm -rf ios
+          
+          # Re-add the ios platform from scratch
+          npx cap add ios
+          
+          # Sync Web Assets (this also runs pod install)
+          npx cap sync ios
+
+      - name: Build iOS App (Unsigned)
+        run: |
+          cd ios/App
+          # Build the archive disabling code signing
+          xcodebuild -workspace App.xcworkspace \
+            -scheme App \
+            -sdk iphoneos \
+            -configuration Release \
+            -archivePath App.xcarchive \
+            clean archive \
+            CODE_SIGN_IDENTITY="" \
+            CODE_SIGNING_REQUIRED=NO \
+            CODE_SIGNING_ALLOWED=NO
+
+      - name: Create IPA
+        run: |
+          cd ios/App
+          mkdir -p Payload
+          # Move the .app from the archive to the Payload folder
+          mv App.xcarchive/Products/Applications/App.app Payload/
+          # Zip the Payload folder into an .ipa file
+          zip -r App.ipa Payload
+
+      - name: Upload IPA Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: gold-rate-tracker-ipa
+          path: ios/App/App.ipa
