@@ -42,8 +42,12 @@ jobs:
 
       - name: Install CocoaPods dependencies
         run: |
-          cd ios/App
-          pod install
+          if [ -f "ios/App/Podfile" ]; then
+            cd ios/App
+            pod install
+          else
+            echo "No Podfile found, skipping pod install"
+          fi
 
       - name: Import Code Signing Certificate
         env:
