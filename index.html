@@ -21,7 +21,43 @@
     </div>
 
     <main class="container">
-        <!-- Card 1: Gold Price Org -->
+        <!-- Card 1: Gold-API.com -->
+        <div class="glass-card">
+            <header>
+                <h1>Market Global <span class="currency">USD</span></h1>
+                <p id="timestamp-2" class="timestamp">Live Real-time</p>
+            </header>
+
+            <div class="price-display">
+                <div class="label">XAU / USD (Source 2)</div>
+                <div id="gold-price-2" class="price">Loading...</div>
+                <div id="price-change-2" class="change-indicator" style="display: none;">
+                    <span id="change-value-2">--</span>
+                    <span id="change-percent-2">(--%)</span>
+                </div>
+            </div>
+
+            <div class="details-grid">
+                <div class="detail-item">
+                    <span class="label">Silver Price (XAG)</span>
+                    <span id="silver-price-2" class="value">--</span>
+                </div>
+                <div class="detail-item">
+                    <span class="label">Gold / Gram 24k (AED)</span>
+                    <span id="gram-price-aed-2" class="value" style="color: var(--accent-gold);">--</span>
+                </div>
+                <div class="detail-item">
+                    <span class="label">Gold / Gram 24k (EGP)</span>
+                    <span id="gram-price-egp-2" class="value" style="color: var(--accent-gold);">--</span>
+                </div>
+                <div class="detail-item">
+                    <span class="label">Gold / Gram 21k (EGP)</span>
+                    <span id="gram-price-egp-21k-2" class="value" style="color: var(--accent-gold);">--</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Card 2: Gold Price Org -->
         <div class="glass-card">
             <header>
                 <h1>Gold Price <span class="currency">USD</span></h1>
@@ -57,43 +93,6 @@
                 <div class="detail-item">
                     <span class="label">Gold / Gram 21k (EGP)</span>
                     <span id="gram-price-egp-21k" class="value" style="color: var(--accent-gold);">--</span>
-                </div>
-            </div>
-        </div>
-
-        <!-- Card 2: Gold-API.com -->
-        <div class="glass-card">
-            <header>
-                <h1>Market Global asd<span class="currency">USD</span></h1>
-                <p id="timestamp-2" class="timestamp">Live Real-time</p>
-            </header>
-
-            <div class="price-display">
-                <div class="label">XAU / USD (Source 2)</div>
-                <div id="gold-price-2" class="price">Loading...</div>
-                <div id="price-change-2" class="change-indicator" style="display: none;">
-                    <span id="change-value-2">--</span>
-                    <span id="change-percent-2">(--%)</span>
-                </div>
-            </div>
-
-
-            <div class="details-grid">
-                <div class="detail-item">
-                    <span class="label">Silver Price (XAG)</span>
-                    <span id="silver-price-2" class="value">--</span>
-                </div>
-                <div class="detail-item">
-                    <span class="label">Gold / Gram 24k (AED)</span>
-                    <span id="gram-price-aed-2" class="value" style="color: var(--accent-gold);">--</span>
-                </div>
-                <div class="detail-item">
-                    <span class="label">Gold / Gram 24k (EGP)</span>
-                    <span id="gram-price-egp-2" class="value" style="color: var(--accent-gold);">--</span>
-                </div>
-                <div class="detail-item">
-                    <span class="label">Gold / Gram 21k (EGP)</span>
-                    <span id="gram-price-egp-21k-2" class="value" style="color: var(--accent-gold);">--</span>
                 </div>
             </div>
         </div>
