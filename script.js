@@ -80,12 +80,10 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const fetchGoldApiCom = async () => {
         try {
-            // Fetch XAU and XAG, plus reference data for EGP conversion
-            const [respGold, respSilver, respRefUsd, respRefEgp] = await Promise.all([
+            // Fetch XAU and XAG only from gold-api.com — fully independent of goldprice.org
+            const [respGold, respSilver] = await Promise.all([
                 fetch('https://api.gold-api.com/price/XAU'),
-                fetch('https://api.gold-api.com/price/XAG'),
-                fetch('https://data-asg.goldprice.org/dbXRates/USD'),
-                fetch('https://data-asg.goldprice.org/dbXRates/EGP')
+                fetch('https://api.gold-api.com/price/XAG')
             ]);
 
             if (!respGold.ok || !respSilver.ok) throw new Error('Gold-API response was not ok');
@@ -93,17 +91,21 @@ document.addEventListener('DOMContentLoaded', () => {
             const dataGold = await respGold.json();
             const dataSilver = await respSilver.json();
 
-            // Calculate exchange rate from reference
-            let exchangeRate = 0;
-            if (respRefUsd.ok && respRefEgp.ok) {
-                const refUsd = await respRefUsd.json();
-                const refEgp = await respRefEgp.json();
-                if (refUsd.items && refUsd.items.length > 0 && refEgp.items && refEgp.items.length > 0) {
-                    exchangeRate = refEgp.items[0].xauPrice / refUsd.items[0].xauPrice;
+            // Get EGP/USD rate from a separate free forex API (CORS-friendly, no auth needed)
+            let egpRate = 50.0; // fallback in case forex API also fails
+            try {
+                const respFx = await fetch('https://open.er-api.com/v6/latest/USD');
+                if (respFx.ok) {
+                    const dataFx = await respFx.json();
+                    if (dataFx.rates && dataFx.rates.EGP) {
+                        egpRate = dataFx.rates.EGP;
+                    }
                 }
+            } catch (fxErr) {
+                console.warn('FX rate fetch failed, using fallback EGP rate:', egpRate);
             }
 
-            updateUI_Source2(dataGold, dataSilver, exchangeRate);
+            updateUI_Source2(dataGold, dataSilver, egpRate);
         } catch (error) {
             console.error('Error fetching Gold-API:', error);
             if (elements.price2) {
