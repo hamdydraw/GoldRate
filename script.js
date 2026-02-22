@@ -14,6 +14,10 @@ document.addEventListener('DOMContentLoaded', () => {
         gramAed: document.getElementById('gram-price-aed'),
         gramEgp: document.getElementById('gram-price-egp'),
         gramEgp21k: document.getElementById('gram-price-egp-21k'),
+        egp24kConverted: document.getElementById('egp-24k-converted'),
+        egp21kConverted: document.getElementById('egp-21k-converted'),
+        exchangeRateUsdEgp: document.getElementById('exchange-rate-usd-egp'),
+        exchangeRateAedEgp: document.getElementById('exchange-rate-aed-egp'),
 
         // Card 2 (Gold-API.com)
         price2: document.getElementById('gold-price-2'),
@@ -21,6 +25,10 @@ document.addEventListener('DOMContentLoaded', () => {
         gramAed2: document.getElementById('gram-price-aed-2'),
         gramEgp2: document.getElementById('gram-price-egp-2'),
         gramEgp21k2: document.getElementById('gram-price-egp-21k-2'),
+        egp24kConverted2: document.getElementById('egp-24k-converted-2'),
+        egp21kConverted2: document.getElementById('egp-21k-converted-2'),
+        exchangeRateUsdEgp2: document.getElementById('exchange-rate-usd-egp-2'),
+        exchangeRateAedEgp2: document.getElementById('exchange-rate-aed-egp-2'),
 
         // Global
         refreshBtn: document.getElementById('refresh-btn')
@@ -139,18 +147,13 @@ document.addEventListener('DOMContentLoaded', () => {
         elements.changeIndicator.className = 'change-indicator ' + (change >= 0 ? 'positive' : 'negative');
 
         // Details
-        elements.prevClose.textContent = formatCurrency(item.xauClose);
+        if (elements.prevClose) {
+            elements.prevClose.textContent = formatCurrency(item.xauClose);
+        }
 
-        // We don't have High/Low in the snippet, so let's repurpose or fill "High" with today's calculation if possible?
-        // Or just set to N/A. Let's set it to N/A or remove the element logic in a real app.
-        // For the sake of the visual, I'll calculate an estimated "Open" roughly, or just hide "High".
-        // Let's change the "High" label in HTML to "Silver Price" since we have that data!
-        // Wait, I can't change HTML easily now without rewrite. I'll just put Silver Price logic here 
-        // and user can see it matches the "High" slot but I should probably rename the Label via JS to be clean.
-
-        const highLabel = document.querySelector('.detail-item:first-child .label');
-        if (highLabel) highLabel.textContent = "Silver Price (XAG)";
-        elements.highVal.textContent = formatCurrency(item.xagPrice);
+        if (elements.highVal) {
+            elements.highVal.textContent = formatCurrency(item.xagPrice);
+        }
 
         // Calculate Gram Price in AED
         // 1 Troy Ounce = 31.1034768 grams
@@ -176,6 +179,14 @@ document.addEventListener('DOMContentLoaded', () => {
             const pricePerGramInEgp = itemEgp.xauPrice / OUNCE_TO_GRAMS;
             const pricePerGram21kInEgp = pricePerGramInEgp * (21 / 24);
 
+            // Calculate USD and AED equivalents
+            const exchangeRate = itemEgp.xauPrice / item.xauPrice;
+            const pricePerGramInUsd = pricePerGramInEgp / exchangeRate;
+            const pricePerGram21kInUsd = pricePerGram21kInEgp / exchangeRate;
+            
+            const pricePerGramInAed = pricePerGramInUsd * USD_TO_AED;
+            const pricePerGram21kInAed = pricePerGram21kInUsd * USD_TO_AED;
+
             if (elements.gramEgp) {
                 elements.gramEgp.textContent = new Intl.NumberFormat('en-EG', {
                     style: 'currency',
@@ -192,6 +203,23 @@ document.addEventListener('DOMContentLoaded', () => {
                     minimumFractionDigits: 2,
                     maximumFractionDigits: 2
                 }).format(pricePerGram21kInEgp);
+            }
+
+            if (elements.egp24kConverted) {
+                elements.egp24kConverted.textContent = `≈ ${formatCurrency(pricePerGramInUsd)} | ${new Intl.NumberFormat('en-AE', { style: 'currency', currency: 'AED' }).format(pricePerGramInAed)}`;
+            }
+
+            if (elements.egp21kConverted) {
+                elements.egp21kConverted.textContent = `≈ ${formatCurrency(pricePerGram21kInUsd)} | ${new Intl.NumberFormat('en-AE', { style: 'currency', currency: 'AED' }).format(pricePerGram21kInAed)}`;
+            }
+
+            if (elements.exchangeRateUsdEgp) {
+                elements.exchangeRateUsdEgp.textContent = `${exchangeRate.toFixed(2)} EGP`;
+            }
+            
+            if (elements.exchangeRateAedEgp) {
+                const aedToEgp = exchangeRate / USD_TO_AED;
+                elements.exchangeRateAedEgp.textContent = `${aedToEgp.toFixed(2)} EGP`;
             }
         }
     };
@@ -231,6 +259,13 @@ document.addEventListener('DOMContentLoaded', () => {
             const pricePerGramInEgp = priceGoldEgp / OUNCE_TO_GRAMS;
             const pricePerGram21kInEgp = pricePerGramInEgp * (21 / 24);
 
+            // Calculate USD and AED equivalents
+            const pricePerGramInUsd = pricePerGramInEgp / exchangeRate;
+            const pricePerGram21kInUsd = pricePerGram21kInEgp / exchangeRate;
+            
+            const pricePerGramInAed = pricePerGramInUsd * USD_TO_AED;
+            const pricePerGram21kInAed = pricePerGram21kInUsd * USD_TO_AED;
+
             if (elements.gramEgp2) {
                 elements.gramEgp2.textContent = new Intl.NumberFormat('en-EG', {
                     style: 'currency',
@@ -247,6 +282,23 @@ document.addEventListener('DOMContentLoaded', () => {
                     minimumFractionDigits: 2,
                     maximumFractionDigits: 2
                 }).format(pricePerGram21kInEgp);
+            }
+
+            if (elements.egp24kConverted2) {
+                elements.egp24kConverted2.textContent = `≈ ${formatCurrency(pricePerGramInUsd)} | ${new Intl.NumberFormat('en-AE', { style: 'currency', currency: 'AED' }).format(pricePerGramInAed)}`;
+            }
+
+            if (elements.egp21kConverted2) {
+                elements.egp21kConverted2.textContent = `≈ ${formatCurrency(pricePerGram21kInUsd)} | ${new Intl.NumberFormat('en-AE', { style: 'currency', currency: 'AED' }).format(pricePerGram21kInAed)}`;
+            }
+
+            if (elements.exchangeRateUsdEgp2) {
+                elements.exchangeRateUsdEgp2.textContent = `${exchangeRate.toFixed(2)} EGP`;
+            }
+            
+            if (elements.exchangeRateAedEgp2) {
+                const aedToEgp = exchangeRate / USD_TO_AED;
+                elements.exchangeRateAedEgp2.textContent = `${aedToEgp.toFixed(2)} EGP`;
             }
         }
     };

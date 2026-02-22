@@ -26,7 +26,8 @@ body {
     min-height: 100vh;
     display: flex;
     justify-content: center;
-    align-items: center;
+    align-items: flex-start;
+    padding: 2rem 0;
     overflow-x: hidden;
     position: relative;
 }
@@ -94,21 +95,65 @@ body {
 }
 
 /* Main Container for Grid Layout */
-.container {
+.dashboard-container {
     width: 100%;
-    max-width: 1000px;
-    padding: 2rem;
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
+    max-width: 1200px;
+    padding: 0 2rem;
+    display: flex;
+    flex-direction: column;
     gap: 2rem;
-    justify-content: center;
-    align-items: stretch;
     z-index: 1;
 }
 
+.header-section {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1rem;
+}
+
+.main-title {
+    font-size: 2.5rem;
+    font-weight: 700;
+    background: linear-gradient(135deg, #fff 0%, #cbd5e1 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    margin: 0;
+}
+
+.sources-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 2rem;
+}
+
+.source-column {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+}
+
+.source-badge {
+    background: rgba(255, 255, 255, 0.1);
+    padding: 0.5rem 1rem;
+    border-radius: 8px;
+    font-size: 0.875rem;
+    font-weight: 600;
+    color: var(--text-secondary);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    align-self: flex-start;
+}
+
 @media (max-width: 900px) {
-    .container {
+    .sources-grid {
         grid-template-columns: 1fr;
+    }
+    .header-section {
+        flex-direction: column;
+        gap: 1rem;
+        text-align: center;
     }
 }
 
@@ -118,82 +163,61 @@ body {
     backdrop-filter: blur(16px);
     -webkit-backdrop-filter: blur(16px);
     border: 1px solid var(--glass-border);
-    border-radius: 24px;
-    padding: 3rem;
+    border-radius: 20px;
+    padding: 1.5rem 2rem;
     width: 100%;
-    max-width: 480px;
-    margin: 0 auto;
-    /* Center card in its grid cell */
-    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
-    text-align: center;
+    box-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.5);
     transition: transform 0.3s ease;
     display: flex;
     flex-direction: column;
 }
 
 .glass-card:hover {
-    transform: translateY(-5px);
+    transform: translateY(-3px);
 }
 
-/* Button Container (Spans full width) */
-.button-container {
-    grid-column: 1 / -1;
-    display: flex;
-    justify-content: center;
-    margin-top: 1rem;
+.highlight-card {
+    background: linear-gradient(145deg, rgba(30, 41, 59, 0.8) 0%, rgba(15, 23, 42, 0.9) 100%);
+    border: 1px solid rgba(251, 191, 36, 0.3);
+    box-shadow: 0 15px 35px -10px rgba(251, 191, 36, 0.15);
 }
 
-header {
-    margin-bottom: 2.5rem;
-}
-
-h1 {
-    font-size: 2rem;
-    font-weight: 700;
-    background: linear-gradient(135deg, #fff 0%, #cbd5e1 100%);
-    -webkit-background-clip: text;
-    background-clip: text;
-    -webkit-text-fill-color: transparent;
-    margin-bottom: 0.5rem;
-}
-
-.currency {
-    color: var(--accent-gold);
-    -webkit-text-fill-color: var(--accent-gold);
-}
-
-.timestamp {
-    color: var(--text-secondary);
-    font-size: 0.875rem;
-}
-
-/* Price Display */
-.price-display {
-    margin-bottom: 2.5rem;
-}
-
-.price-display .label {
+.card-header {
     color: var(--text-secondary);
     text-transform: uppercase;
-    letter-spacing: 2px;
-    font-size: 0.875rem;
-    margin-bottom: 0.5rem;
+    letter-spacing: 1.5px;
+    font-size: 0.8rem;
+    margin-bottom: 1rem;
     font-weight: 600;
 }
 
-.price {
-    font-size: 4rem;
+.price-main {
+    font-size: 3rem;
     font-weight: 700;
     color: var(--text-primary);
     line-height: 1;
-    text-shadow: 0 0 30px rgba(255, 255, 255, 0.1);
+    text-shadow: 0 0 20px rgba(255, 255, 255, 0.1);
     margin-bottom: 0.5rem;
     font-feature-settings: "tnum";
     font-variant-numeric: tabular-nums;
 }
 
+.price-secondary {
+    font-size: 2rem;
+    font-weight: 600;
+    color: var(--text-primary);
+    font-feature-settings: "tnum";
+    font-variant-numeric: tabular-nums;
+}
+
+.timestamp {
+    color: var(--text-secondary);
+    font-size: 0.75rem;
+    margin-top: 1rem;
+}
+
 .change-indicator {
-    font-size: 1.125rem;
+    font-size: 1rem;
     font-weight: 500;
     display: inline-flex;
     align-items: center;
@@ -201,6 +225,7 @@ h1 {
     padding: 0.25rem 0.75rem;
     border-radius: 9999px;
     background: rgba(255, 255, 255, 0.05);
+    align-self: flex-start;
 }
 
 .change-indicator.positive {
@@ -213,33 +238,44 @@ h1 {
     background: rgba(248, 113, 113, 0.1);
 }
 
-/* Details Grid */
-.details-grid {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
+/* Local Market Styles */
+.local-card {
     gap: 1rem;
-    margin-bottom: 2rem;
-    padding-top: 2rem;
-    border-top: 1px solid var(--glass-border);
-    margin-top: auto;
-    /* Pushes grid to bottom if card height varies */
 }
 
-.detail-item {
+.market-row {
     display: flex;
     flex-direction: column;
     gap: 0.25rem;
 }
 
-.detail-item .label {
+.market-label {
     color: var(--text-secondary);
-    font-size: 0.75rem;
-    text-transform: uppercase;
+    font-size: 0.85rem;
+    font-weight: 500;
 }
 
-.detail-item .value {
-    font-size: 1.25rem;
+.market-price {
+    font-size: 1.5rem;
     font-weight: 600;
+    color: var(--accent-gold);
+}
+
+.market-sub {
+    font-size: 0.85rem;
+    color: var(--text-secondary);
+    background: rgba(255, 255, 255, 0.05);
+    padding: 0.25rem 0.5rem;
+    border-radius: 6px;
+    display: inline-block;
+    align-self: flex-start;
+    margin-top: 0.25rem;
+}
+
+.market-divider {
+    height: 1px;
+    background: var(--glass-border);
+    margin: 0.5rem 0;
 }
 
 /* Button */

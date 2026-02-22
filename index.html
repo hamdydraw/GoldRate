@@ -20,84 +20,9 @@
         <div class="blob blob-3"></div>
     </div>
 
-    <main class="container">
-        <!-- Card 1: Gold-API.com -->
-        <div class="glass-card">
-            <header>
-                <h1>Market Global <span class="currency">USD</span></h1>
-                <p id="timestamp-2" class="timestamp">Live Real-time</p>
-            </header>
-
-            <div class="price-display">
-                <div class="label">XAU / USD (Source 2)</div>
-                <div id="gold-price-2" class="price">Loading...</div>
-                <div id="price-change-2" class="change-indicator" style="display: none;">
-                    <span id="change-value-2">--</span>
-                    <span id="change-percent-2">(--%)</span>
-                </div>
-            </div>
-
-            <div class="details-grid">
-                <div class="detail-item">
-                    <span class="label">Silver Price (XAG)</span>
-                    <span id="silver-price-2" class="value">--</span>
-                </div>
-                <div class="detail-item">
-                    <span class="label">Gold / Gram 24k (AED)</span>
-                    <span id="gram-price-aed-2" class="value" style="color: var(--accent-gold);">--</span>
-                </div>
-                <div class="detail-item">
-                    <span class="label">Gold / Gram 24k (EGP)</span>
-                    <span id="gram-price-egp-2" class="value" style="color: var(--accent-gold);">--</span>
-                </div>
-                <div class="detail-item">
-                    <span class="label">Gold / Gram 21k (EGP)</span>
-                    <span id="gram-price-egp-21k-2" class="value" style="color: var(--accent-gold);">--</span>
-                </div>
-            </div>
-        </div>
-
-        <!-- Card 2: Gold Price Org -->
-        <div class="glass-card">
-            <header>
-                <h1>Gold Price <span class="currency">USD</span></h1>
-                <p id="timestamp" class="timestamp">Loading date...</p>
-            </header>
-
-            <div class="price-display">
-                <div class="label">XAU / USD (Source 1)</div>
-                <div id="gold-price" class="price">Loading...</div>
-                <div id="price-change" class="change-indicator">
-                    <span id="change-value">--</span>
-                    <span id="change-percent">(--%)</span>
-                </div>
-            </div>
-
-            <div class="details-grid">
-                <div class="detail-item">
-                    <span class="label">Silver Price (XAG)</span>
-                    <span id="high-val" class="value">--</span>
-                </div>
-                <div class="detail-item">
-                    <span class="label">Previous Close</span>
-                    <span id="prev-close" class="value">--</span>
-                </div>
-                <div class="detail-item">
-                    <span class="label">Gold / Gram (AED)</span>
-                    <span id="gram-price-aed" class="value" style="color: var(--accent-gold);">--</span>
-                </div>
-                <div class="detail-item">
-                    <span class="label">Gold / Gram 24k (EGP)</span>
-                    <span id="gram-price-egp" class="value" style="color: var(--accent-gold);">--</span>
-                </div>
-                <div class="detail-item">
-                    <span class="label">Gold / Gram 21k (EGP)</span>
-                    <span id="gram-price-egp-21k" class="value" style="color: var(--accent-gold);">--</span>
-                </div>
-            </div>
-        </div>
-
-        <div class="button-container">
+    <main class="dashboard-container">
+        <div class="header-section">
+            <h1 class="main-title">Live Gold Tracker</h1>
             <button id="refresh-btn" class="refresh-button">
                 <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none"
                     stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -105,6 +30,120 @@
                 </svg>
                 Refresh Rates
             </button>
+        </div>
+
+        <div class="sources-grid">
+            <!-- Source 2 Column (Now First) -->
+            <div class="source-column">
+                <div class="source-badge">Source 1: Gold-API.com</div>
+                
+                <div class="glass-card highlight-card">
+                    <div class="card-header">Global Spot (XAU/USD)</div>
+                    <div id="gold-price-2" class="price-main">Loading...</div>
+                    <div id="price-change-2" class="change-indicator" style="display: none;">
+                        <span id="change-value-2">--</span>
+                        <span id="change-percent-2">(--%)</span>
+                    </div>
+                    <div class="timestamp" id="timestamp-2">Live Real-time</div>
+                </div>
+
+                <div class="glass-card">
+                    <div class="card-header">Silver Spot (XAG/USD)</div>
+                    <div id="silver-price-2" class="price-secondary">--</div>
+                </div>
+
+                <div class="glass-card">
+                    <div class="card-header">Exchange Rates</div>
+                    <div class="market-row">
+                        <div class="market-label">USD to EGP</div>
+                        <div class="price-secondary" id="exchange-rate-usd-egp-2">--</div>
+                    </div>
+                    <div class="market-divider"></div>
+                    <div class="market-row">
+                        <div class="market-label">AED to EGP</div>
+                        <div class="price-secondary" id="exchange-rate-aed-egp-2">--</div>
+                    </div>
+                </div>
+
+                <div class="glass-card local-card">
+                    <div class="card-header">Egypt Market 🇪🇬</div>
+                    <div class="market-row">
+                        <div class="market-label">24K Gold / Gram</div>
+                        <div class="market-price" id="gram-price-egp-2">--</div>
+                        <div class="market-sub" id="egp-24k-converted-2">-- USD | -- AED</div>
+                    </div>
+                    <div class="market-divider"></div>
+                    <div class="market-row">
+                        <div class="market-label">21K Gold / Gram</div>
+                        <div class="market-price" id="gram-price-egp-21k-2">--</div>
+                        <div class="market-sub" id="egp-21k-converted-2">-- USD | -- AED</div>
+                    </div>
+                </div>
+
+                <div class="glass-card local-card">
+                    <div class="card-header">UAE Market 🇦🇪</div>
+                    <div class="market-row">
+                        <div class="market-label">24K Gold / Gram</div>
+                        <div class="market-price" id="gram-price-aed-2">--</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Source 1 Column (Now Second) -->
+            <div class="source-column">
+                <div class="source-badge">Source 2: GoldPrice.org</div>
+                
+                <div class="glass-card highlight-card">
+                    <div class="card-header">Global Spot (XAU/USD)</div>
+                    <div id="gold-price" class="price-main">Loading...</div>
+                    <div id="price-change" class="change-indicator">
+                        <span id="change-value">--</span>
+                        <span id="change-percent">(--%)</span>
+                    </div>
+                    <div class="timestamp" id="timestamp">Loading date...</div>
+                </div>
+
+                <div class="glass-card">
+                    <div class="card-header">Silver Spot (XAG/USD)</div>
+                    <div id="high-val" class="price-secondary">--</div>
+                </div>
+
+                <div class="glass-card">
+                    <div class="card-header">Exchange Rates</div>
+                    <div class="market-row">
+                        <div class="market-label">USD to EGP</div>
+                        <div class="price-secondary" id="exchange-rate-usd-egp">--</div>
+                    </div>
+                    <div class="market-divider"></div>
+                    <div class="market-row">
+                        <div class="market-label">AED to EGP</div>
+                        <div class="price-secondary" id="exchange-rate-aed-egp">--</div>
+                    </div>
+                </div>
+
+                <div class="glass-card local-card">
+                    <div class="card-header">Egypt Market 🇪🇬</div>
+                    <div class="market-row">
+                        <div class="market-label">24K Gold / Gram</div>
+                        <div class="market-price" id="gram-price-egp">--</div>
+                        <div class="market-sub" id="egp-24k-converted">-- USD | -- AED</div>
+                    </div>
+                    <div class="market-divider"></div>
+                    <div class="market-row">
+                        <div class="market-label">21K Gold / Gram</div>
+                        <div class="market-price" id="gram-price-egp-21k">--</div>
+                        <div class="market-sub" id="egp-21k-converted">-- USD | -- AED</div>
+                    </div>
+                </div>
+
+                <div class="glass-card local-card">
+                    <div class="card-header">UAE Market 🇦🇪</div>
+                    <div class="market-row">
+                        <div class="market-label">24K Gold / Gram</div>
+                        <div class="market-price" id="gram-price-aed">--</div>
+                    </div>
+                </div>
+            </div>
         </div>
     </main>
 
