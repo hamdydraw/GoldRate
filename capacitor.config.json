@@ -1,5 +1,13 @@
 {
   "appId": "com.goldrate.tracker",
   "appName": "Gold Rate Tracker",
-  "webDir": "www"
+  "webDir": "www",
+  "server": {
+    "androidScheme": "https"
+  },
+  "plugins": {
+    "CapacitorHttp": {
+      "enabled": true
+    }
+  }
 }
