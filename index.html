@@ -9,7 +9,7 @@
         content="Live Gold Rate Tracker showcasing real-time XAU/USD prices with a modern interface.">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700&family=Amiri:wght@400;700&family=Cairo:wght@400;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
 </head>
 
@@ -143,6 +143,222 @@
                 </div>
             </div>
         </div>
+
+        <!-- ===== أذكار الصباح والمساء ===== -->
+        <section class="adhkar-section" dir="rtl">
+            <div class="adhkar-header">
+                <h2 class="adhkar-title">أذكار الصباح والمساء</h2>
+                <p class="adhkar-subtitle">المختصرة الواردة عن النبي محمد ﷺ</p>
+            </div>
+
+            <div class="adhkar-tabs-nav">
+                <button class="adhkar-tab-btn active" data-tab="morning">
+                    <span class="tab-icon">🌅</span>
+                    <span>أذكار الصباح</span>
+                </button>
+                <button class="adhkar-tab-btn" data-tab="evening">
+                    <span class="tab-icon">🌙</span>
+                    <span>أذكار المساء</span>
+                </button>
+            </div>
+
+            <!-- أذكار الصباح -->
+            <div id="morning-tab" class="adhkar-tab-content active">
+                <div class="dhikr-grid">
+
+                    <div class="dhikr-card">
+                        <div class="dhikr-count-badge">١ مرة</div>
+                        <div class="dhikr-label">آية الكرسي</div>
+                        <p class="dhikr-text">ٱللَّهُ لَآ إِلَٰهَ إِلَّا هُوَ ٱلْحَىُّ ٱلْقَيُّومُ ۚ لَا تَأْخُذُهُۥ سِنَةٌ وَلَا نَوْمٌ ۚ لَّهُۥ مَا فِى ٱلسَّمَٰوَٰتِ وَمَا فِى ٱلْأَرْضِ ۗ مَن ذَا ٱلَّذِى يَشْفَعُ عِندَهُۥٓ إِلَّا بِإِذْنِهِۦ ۚ يَعْلَمُ مَا بَيْنَ أَيْدِيهِمْ وَمَا خَلْفَهُمْ ۖ وَلَا يُحِيطُونَ بِشَىْءٍ مِّنْ عِلْمِهِۦٓ إِلَّا بِمَا شَآءَ ۚ وَسِعَ كُرْسِيُّهُ ٱلسَّمَٰوَٰتِ وَٱلْأَرْضَ ۖ وَلَا يَـُٔودُهُۥ حِفْظُهُمَا ۚ وَهُوَ ٱلْعَلِىُّ ٱلْعَظِيمُ</p>
+                        <div class="dhikr-source">البقرة: ٢٥٥</div>
+                    </div>
+
+                    <div class="dhikr-card">
+                        <div class="dhikr-count-badge">١ مرة</div>
+                        <div class="dhikr-label">دعاء الصباح</div>
+                        <p class="dhikr-text">أَصْبَحْنَا وَأَصْبَحَ الْمُلْكُ لِلَّهِ، وَالْحَمْدُ لِلَّهِ، لَا إِلَٰهَ إِلَّا اللَّهُ وَحْدَهُ لَا شَرِيكَ لَهُ، لَهُ الْمُلْكُ وَلَهُ الْحَمْدُ وَهُوَ عَلَىٰ كُلِّ شَيْءٍ قَدِيرٌ، رَبِّ أَسْأَلُكَ خَيْرَ مَا فِي هَٰذَا الْيَوْمِ وَخَيْرَ مَا بَعْدَهُ، وَأَعُوذُ بِكَ مِنْ شَرِّ مَا فِي هَٰذَا الْيَوْمِ وَشَرِّ مَا بَعْدَهُ، رَبِّ أَعُوذُ بِكَ مِنَ الْكَسَلِ وَسُوءِ الْكِبَرِ، رَبِّ أَعُوذُ بِكَ مِنْ عَذَابٍ فِي النَّارِ وَعَذَابٍ فِي الْقَبْرِ</p>
+                        <div class="dhikr-source">رواه مسلم</div>
+                    </div>
+
+                    <div class="dhikr-card">
+                        <div class="dhikr-count-badge">١ مرة</div>
+                        <div class="dhikr-label">دعاء الصباح والمساء</div>
+                        <p class="dhikr-text">اللَّهُمَّ بِكَ أَصْبَحْنَا، وَبِكَ أَمْسَيْنَا، وَبِكَ نَحْيَا، وَبِكَ نَمُوتُ، وَإِلَيْكَ النُّشُورُ</p>
+                        <div class="dhikr-source">رواه الترمذي</div>
+                    </div>
+
+                    <div class="dhikr-card dhikr-card--featured">
+                        <div class="dhikr-count-badge">١ مرة</div>
+                        <div class="dhikr-label">سيد الاستغفار</div>
+                        <p class="dhikr-text">اللَّهُمَّ أَنْتَ رَبِّي لَا إِلَٰهَ إِلَّا أَنْتَ، خَلَقْتَنِي وَأَنَا عَبْدُكَ، وَأَنَا عَلَىٰ عَهْدِكَ وَوَعْدِكَ مَا اسْتَطَعْتُ، أَعُوذُ بِكَ مِنْ شَرِّ مَا صَنَعْتُ، أَبُوءُ لَكَ بِنِعْمَتِكَ عَلَيَّ، وَأَبُوءُ لَكَ بِذَنْبِي فَاغْفِرْ لِي، فَإِنَّهُ لَا يَغْفِرُ الذُّنُوبَ إِلَّا أَنْتَ</p>
+                        <div class="dhikr-source">رواه البخاري ✦ من قالها موقناً فمات من يومه دخل الجنة</div>
+                    </div>
+
+                    <div class="dhikr-card">
+                        <div class="dhikr-count-badge">٣ مرات</div>
+                        <div class="dhikr-label">طلب العافية</div>
+                        <p class="dhikr-text">اللَّهُمَّ عَافِنِي فِي بَدَنِي، اللَّهُمَّ عَافِنِي فِي سَمْعِي، اللَّهُمَّ عَافِنِي فِي بَصَرِي، لَا إِلَٰهَ إِلَّا أَنْتَ</p>
+                        <div class="dhikr-source">رواه أبو داود</div>
+                    </div>
+
+                    <div class="dhikr-card">
+                        <div class="dhikr-count-badge">٣ مرات</div>
+                        <div class="dhikr-label">التعوذ من الكفر والفقر</div>
+                        <p class="dhikr-text">اللَّهُمَّ إِنِّي أَعُوذُ بِكَ مِنَ الْكُفْرِ وَالْفَقْرِ، وَأَعُوذُ بِكَ مِنْ عَذَابِ الْقَبْرِ، لَا إِلَٰهَ إِلَّا أَنْتَ</p>
+                        <div class="dhikr-source">رواه أبو داود</div>
+                    </div>
+
+                    <div class="dhikr-card">
+                        <div class="dhikr-count-badge">٣ مرات</div>
+                        <div class="dhikr-label">الرضا بالله رباً</div>
+                        <p class="dhikr-text">رَضِيتُ بِاللَّهِ رَبًّا، وَبِالْإِسْلَامِ دِينًا، وَبِمُحَمَّدٍ ﷺ نَبِيًّا</p>
+                        <div class="dhikr-source">رواه أبو داود ✦ كان حقاً على الله أن يُرضيه يوم القيامة</div>
+                    </div>
+
+                    <div class="dhikr-card">
+                        <div class="dhikr-count-badge">٣ مرات</div>
+                        <div class="dhikr-label">التحصين باسم الله</div>
+                        <p class="dhikr-text">بِسْمِ اللَّهِ الَّذِي لَا يَضُرُّ مَعَ اسْمِهِ شَيْءٌ فِي الْأَرْضِ وَلَا فِي السَّمَاءِ وَهُوَ السَّمِيعُ الْعَلِيمُ</p>
+                        <div class="dhikr-source">رواه أبو داود ✦ لم تضره فجأة بلاء</div>
+                    </div>
+
+                    <div class="dhikr-card">
+                        <div class="dhikr-count-badge">٧ مرات</div>
+                        <div class="dhikr-label">حسب الله</div>
+                        <p class="dhikr-text">حَسْبِيَ اللَّهُ لَا إِلَٰهَ إِلَّا هُوَ، عَلَيْهِ تَوَكَّلْتُ وَهُوَ رَبُّ الْعَرْشِ الْعَظِيمِ</p>
+                        <div class="dhikr-source">رواه أبو داود ✦ كفاه الله ما أهمه</div>
+                    </div>
+
+                    <div class="dhikr-card">
+                        <div class="dhikr-count-badge">١٠٠ مرة</div>
+                        <div class="dhikr-label">التسبيح بالحمد</div>
+                        <p class="dhikr-text">سُبْحَانَ اللَّهِ وَبِحَمْدِهِ</p>
+                        <div class="dhikr-source">متفق عليه ✦ غُفرت له ذنوبه وإن كانت كالزبد</div>
+                    </div>
+
+                    <div class="dhikr-card">
+                        <div class="dhikr-count-badge">١٠ مرات</div>
+                        <div class="dhikr-label">التوحيد</div>
+                        <p class="dhikr-text">لَا إِلَٰهَ إِلَّا اللَّهُ وَحْدَهُ لَا شَرِيكَ لَهُ، لَهُ الْمُلْكُ وَلَهُ الْحَمْدُ وَهُوَ عَلَىٰ كُلِّ شَيْءٍ قَدِيرٌ</p>
+                        <div class="dhikr-source">متفق عليه ✦ كانت له عدل عشر رقاب ومُحيت عنه عشر سيئات</div>
+                    </div>
+
+                    <div class="dhikr-card">
+                        <div class="dhikr-count-badge">٣ مرات</div>
+                        <div class="dhikr-label">التسبيح الشامل</div>
+                        <p class="dhikr-text">سُبْحَانَ اللَّهِ وَبِحَمْدِهِ، عَدَدَ خَلْقِهِ وَرِضَا نَفْسِهِ وَزِنَةَ عَرْشِهِ وَمِدَادَ كَلِمَاتِهِ</p>
+                        <div class="dhikr-source">رواه مسلم</div>
+                    </div>
+
+                    <div class="dhikr-card">
+                        <div class="dhikr-count-badge">٣ مرات</div>
+                        <div class="dhikr-label">سورة الإخلاص والمعوذتان</div>
+                        <p class="dhikr-text">قُلْ هُوَ اللَّهُ أَحَدٌ ✦ قُلْ أَعُوذُ بِرَبِّ الْفَلَقِ ✦ قُلْ أَعُوذُ بِرَبِّ النَّاسِ</p>
+                        <div class="dhikr-source">رواه أبو داود ✦ كفتاه من كل شيء</div>
+                    </div>
+
+                </div>
+            </div>
+
+            <!-- أذكار المساء -->
+            <div id="evening-tab" class="adhkar-tab-content">
+                <div class="dhikr-grid">
+
+                    <div class="dhikr-card">
+                        <div class="dhikr-count-badge">١ مرة</div>
+                        <div class="dhikr-label">آية الكرسي</div>
+                        <p class="dhikr-text">ٱللَّهُ لَآ إِلَٰهَ إِلَّا هُوَ ٱلْحَىُّ ٱلْقَيُّومُ ۚ لَا تَأْخُذُهُۥ سِنَةٌ وَلَا نَوْمٌ ۚ لَّهُۥ مَا فِى ٱلسَّمَٰوَٰتِ وَمَا فِى ٱلْأَرْضِ ۗ مَن ذَا ٱلَّذِى يَشْفَعُ عِندَهُۥٓ إِلَّا بِإِذْنِهِۦ ۚ يَعْلَمُ مَا بَيْنَ أَيْدِيهِمْ وَمَا خَلْفَهُمْ ۖ وَلَا يُحِيطُونَ بِشَىْءٍ مِّنْ عِلْمِهِۦٓ إِلَّا بِمَا شَآءَ ۚ وَسِعَ كُرْسِيُّهُ ٱلسَّمَٰوَٰتِ وَٱلْأَرْضَ ۖ وَلَا يَـُٔودُهُۥ حِفْظُهُمَا ۚ وَهُوَ ٱلْعَلِىُّ ٱلْعَظِيمُ</p>
+                        <div class="dhikr-source">البقرة: ٢٥٥</div>
+                    </div>
+
+                    <div class="dhikr-card">
+                        <div class="dhikr-count-badge">١ مرة</div>
+                        <div class="dhikr-label">دعاء المساء</div>
+                        <p class="dhikr-text">أَمْسَيْنَا وَأَمْسَى الْمُلْكُ لِلَّهِ، وَالْحَمْدُ لِلَّهِ، لَا إِلَٰهَ إِلَّا اللَّهُ وَحْدَهُ لَا شَرِيكَ لَهُ، لَهُ الْمُلْكُ وَلَهُ الْحَمْدُ وَهُوَ عَلَىٰ كُلِّ شَيْءٍ قَدِيرٌ، رَبِّ أَسْأَلُكَ خَيْرَ مَا فِي هَٰذِهِ اللَّيْلَةِ وَخَيْرَ مَا بَعْدَهَا، وَأَعُوذُ بِكَ مِنْ شَرِّ مَا فِي هَٰذِهِ اللَّيْلَةِ وَشَرِّ مَا بَعْدَهَا، رَبِّ أَعُوذُ بِكَ مِنَ الْكَسَلِ وَسُوءِ الْكِبَرِ، رَبِّ أَعُوذُ بِكَ مِنْ عَذَابٍ فِي النَّارِ وَعَذَابٍ فِي الْقَبْرِ</p>
+                        <div class="dhikr-source">رواه مسلم</div>
+                    </div>
+
+                    <div class="dhikr-card">
+                        <div class="dhikr-count-badge">١ مرة</div>
+                        <div class="dhikr-label">دعاء الصباح والمساء</div>
+                        <p class="dhikr-text">اللَّهُمَّ بِكَ أَمْسَيْنَا، وَبِكَ أَصْبَحْنَا، وَبِكَ نَحْيَا، وَبِكَ نَمُوتُ، وَإِلَيْكَ الْمَصِيرُ</p>
+                        <div class="dhikr-source">رواه الترمذي</div>
+                    </div>
+
+                    <div class="dhikr-card dhikr-card--featured">
+                        <div class="dhikr-count-badge">١ مرة</div>
+                        <div class="dhikr-label">سيد الاستغفار</div>
+                        <p class="dhikr-text">اللَّهُمَّ أَنْتَ رَبِّي لَا إِلَٰهَ إِلَّا أَنْتَ، خَلَقْتَنِي وَأَنَا عَبْدُكَ، وَأَنَا عَلَىٰ عَهْدِكَ وَوَعْدِكَ مَا اسْتَطَعْتُ، أَعُوذُ بِكَ مِنْ شَرِّ مَا صَنَعْتُ، أَبُوءُ لَكَ بِنِعْمَتِكَ عَلَيَّ، وَأَبُوءُ لَكَ بِذَنْبِي فَاغْفِرْ لِي، فَإِنَّهُ لَا يَغْفِرُ الذُّنُوبَ إِلَّا أَنْتَ</p>
+                        <div class="dhikr-source">رواه البخاري ✦ من قالها موقناً فمات من ليلته دخل الجنة</div>
+                    </div>
+
+                    <div class="dhikr-card">
+                        <div class="dhikr-count-badge">٣ مرات</div>
+                        <div class="dhikr-label">طلب العافية</div>
+                        <p class="dhikr-text">اللَّهُمَّ عَافِنِي فِي بَدَنِي، اللَّهُمَّ عَافِنِي فِي سَمْعِي، اللَّهُمَّ عَافِنِي فِي بَصَرِي، لَا إِلَٰهَ إِلَّا أَنْتَ</p>
+                        <div class="dhikr-source">رواه أبو داود</div>
+                    </div>
+
+                    <div class="dhikr-card">
+                        <div class="dhikr-count-badge">٣ مرات</div>
+                        <div class="dhikr-label">التعوذ من الكفر والفقر</div>
+                        <p class="dhikr-text">اللَّهُمَّ إِنِّي أَعُوذُ بِكَ مِنَ الْكُفْرِ وَالْفَقْرِ، وَأَعُوذُ بِكَ مِنْ عَذَابِ الْقَبْرِ، لَا إِلَٰهَ إِلَّا أَنْتَ</p>
+                        <div class="dhikr-source">رواه أبو داود</div>
+                    </div>
+
+                    <div class="dhikr-card">
+                        <div class="dhikr-count-badge">٣ مرات</div>
+                        <div class="dhikr-label">الرضا بالله رباً</div>
+                        <p class="dhikr-text">رَضِيتُ بِاللَّهِ رَبًّا، وَبِالْإِسْلَامِ دِينًا، وَبِمُحَمَّدٍ ﷺ نَبِيًّا</p>
+                        <div class="dhikr-source">رواه أبو داود ✦ كان حقاً على الله أن يُرضيه يوم القيامة</div>
+                    </div>
+
+                    <div class="dhikr-card">
+                        <div class="dhikr-count-badge">٣ مرات</div>
+                        <div class="dhikr-label">التحصين باسم الله</div>
+                        <p class="dhikr-text">بِسْمِ اللَّهِ الَّذِي لَا يَضُرُّ مَعَ اسْمِهِ شَيْءٌ فِي الْأَرْضِ وَلَا فِي السَّمَاءِ وَهُوَ السَّمِيعُ الْعَلِيمُ</p>
+                        <div class="dhikr-source">رواه أبو داود ✦ لم تضره فجأة بلاء</div>
+                    </div>
+
+                    <div class="dhikr-card">
+                        <div class="dhikr-count-badge">٧ مرات</div>
+                        <div class="dhikr-label">حسب الله</div>
+                        <p class="dhikr-text">حَسْبِيَ اللَّهُ لَا إِلَٰهَ إِلَّا هُوَ، عَلَيْهِ تَوَكَّلْتُ وَهُوَ رَبُّ الْعَرْشِ الْعَظِيمِ</p>
+                        <div class="dhikr-source">رواه أبو داود ✦ كفاه الله ما أهمه</div>
+                    </div>
+
+                    <div class="dhikr-card">
+                        <div class="dhikr-count-badge">١٠٠ مرة</div>
+                        <div class="dhikr-label">التسبيح بالحمد</div>
+                        <p class="dhikr-text">سُبْحَانَ اللَّهِ وَبِحَمْدِهِ</p>
+                        <div class="dhikr-source">متفق عليه ✦ غُفرت له ذنوبه وإن كانت كالزبد</div>
+                    </div>
+
+                    <div class="dhikr-card">
+                        <div class="dhikr-count-badge">١٠ مرات</div>
+                        <div class="dhikr-label">التوحيد</div>
+                        <p class="dhikr-text">لَا إِلَٰهَ إِلَّا اللَّهُ وَحْدَهُ لَا شَرِيكَ لَهُ، لَهُ الْمُلْكُ وَلَهُ الْحَمْدُ وَهُوَ عَلَىٰ كُلِّ شَيْءٍ قَدِيرٌ</p>
+                        <div class="dhikr-source">متفق عليه ✦ كانت له عدل عشر رقاب ومُحيت عنه عشر سيئات</div>
+                    </div>
+
+                    <div class="dhikr-card">
+                        <div class="dhikr-count-badge">٣ مرات</div>
+                        <div class="dhikr-label">التسبيح الشامل</div>
+                        <p class="dhikr-text">سُبْحَانَ اللَّهِ وَبِحَمْدِهِ، عَدَدَ خَلْقِهِ وَرِضَا نَفْسِهِ وَزِنَةَ عَرْشِهِ وَمِدَادَ كَلِمَاتِهِ</p>
+                        <div class="dhikr-source">رواه مسلم</div>
+                    </div>
+
+                    <div class="dhikr-card">
+                        <div class="dhikr-count-badge">٣ مرات</div>
+                        <div class="dhikr-label">سورة الإخلاص والمعوذتان</div>
+                        <p class="dhikr-text">قُلْ هُوَ اللَّهُ أَحَدٌ ✦ قُلْ أَعُوذُ بِرَبِّ الْفَلَقِ ✦ قُلْ أَعُوذُ بِرَبِّ النَّاسِ</p>
+                        <div class="dhikr-source">رواه أبو داود ✦ كفتاه من كل شيء</div>
+                    </div>
+
+                </div>
+            </div>
+        </section>
+
     </main>
 
     <script src="script.js"></script>

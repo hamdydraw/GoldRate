@@ -313,4 +313,18 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Auto refresh every 3 seconds
     setInterval(fetchAllData, 3000);
+
+    // ── Adhkar Tab Switching ──────────────────────────────────
+    document.querySelectorAll('.adhkar-tab-btn').forEach(btn => {
+        btn.addEventListener('click', () => {
+            const target = btn.dataset.tab;
+
+            document.querySelectorAll('.adhkar-tab-btn').forEach(b => b.classList.remove('active'));
+            document.querySelectorAll('.adhkar-tab-content').forEach(c => c.classList.remove('active'));
+
+            btn.classList.add('active');
+            const panel = document.getElementById(target + '-tab');
+            if (panel) panel.classList.add('active');
+        });
+    });
 });
