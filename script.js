@@ -313,4 +313,25 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Auto refresh every 3 seconds
     setInterval(fetchAllData, 3000);
+
+    // ── Main Tab Switching ────────────────────────────────────
+    const refreshBtn = document.getElementById('refresh-btn');
+
+    document.querySelectorAll('.main-tab-btn').forEach(btn => {
+        btn.addEventListener('click', () => {
+            const target = btn.dataset.tab;
+
+            document.querySelectorAll('.main-tab-btn').forEach(b => b.classList.remove('active'));
+            document.querySelectorAll('.main-tab-content').forEach(c => c.classList.remove('active'));
+
+            btn.classList.add('active');
+            const panel = document.getElementById(target + '-tab');
+            if (panel) panel.classList.add('active');
+
+            // Show refresh button only on gold rate tab
+            if (refreshBtn) {
+                refreshBtn.style.display = target === 'goldrate' ? '' : 'none';
+            }
+        });
+    });
 });
